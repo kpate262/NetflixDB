@@ -149,9 +149,9 @@ namespace workspace
       
       public void print(){
           System.Console.WriteLine("'{0}', released {1}", movieName, year);
-          System.Console.WriteLine("Avg rating: {0} across {1} reviews [5,4,3,2,1: {2},{3},{4},{5},{6}]", 
+          System.Console.WriteLine(" Avg rating: {0} across {1} reviews [5,4,3,2,1: {2},{3},{4},{5},{6}]", 
                                    avgRating, totalReviews, reviews[4], reviews[3], reviews[2], reviews[1], reviews[0]);
-          System.Console.WriteLine("Ranked {0} out of {1}", rank, totalMovies);
+          System.Console.WriteLine(" Ranked {0} out of {1}", rank, totalMovies);
       }
       
   }
