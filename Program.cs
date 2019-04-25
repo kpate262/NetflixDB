@@ -149,8 +149,14 @@ namespace workspace
       
       public void print(){
           System.Console.WriteLine("'{0}', released {1}", movieName, year);
-          System.Console.WriteLine(" Avg rating: {0} across {1} reviews [5,4,3,2,1: {2},{3},{4},{5},{6}]", 
+          if(totalReviews == 0){
+              System.Console.WriteLine(" Avg rating: <<no reviews>>"); 
+                                   
+          }
+          else{
+              System.Console.WriteLine(" Avg rating: {0} across {1} reviews [5,4,3,2,1: {2},{3},{4},{5},{6}]", 
                                    avgRating, totalReviews, reviews[4], reviews[3], reviews[2], reviews[1], reviews[0]);
+          }
           System.Console.WriteLine(" Ranked {0} out of {1}", rank, totalMovies);
       }
       
@@ -183,7 +189,7 @@ namespace workspace
               movieName = movieName.Replace("'", "''");
               string sql = string.Format(@"SELECT MovieName, AVG(Convert(float, Rating)) AS AvgRating, COUNT(Rating) AS TotalRating
                                            FROM Movies
-                                           INNER JOIN Reviews
+                                           FULL OUTER JOIN Reviews
                                                ON Movies.MovieID = Reviews.MovieID
                                            WHERE MovieName LIKE '%{0}%'
                                            GROUP BY MovieName
