@@ -104,7 +104,7 @@ namespace workspace
           
           sql = string.Format(@"SELECT MovieName, AVG(CONVERT(float, Rating)) AS AvgRating
                             FROM Movies
-                            INNER JOIN Reviews
+                            FULL OUTER JOIN Reviews
                                 ON Movies.MovieID = Reviews.MovieID
                             GROUP BY MovieName 
                             ORDER BY AvgRating DESC, MovieName ASC");
