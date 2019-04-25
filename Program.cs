@@ -180,7 +180,7 @@ namespace workspace
               System.Console.WriteLine("Error: {0}", ex.Message);
           }
           finally{
-              
+              movieName = movieName.Replace("'", "''");
               string sql = string.Format(@"SELECT MovieName, AVG(Convert(float, Rating)) AS AvgRating, COUNT(Rating) AS TotalRating
                                            FROM Movies
                                            INNER JOIN Reviews
