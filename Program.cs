@@ -115,7 +115,7 @@ namespace workspace
           cmd.CommandText = sql;
           adapter.Fill(ds);
           
-          var ranks = ds.Tables["TABLE"].Rows;
+          var ranks = ds.Tables[0].Rows;
           this.totalMovies = ranks.Count;
           int counter = 0;
           
