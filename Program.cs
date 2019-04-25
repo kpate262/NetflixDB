@@ -196,7 +196,7 @@ namespace workspace
               cmd.CommandText = sql;
               adapter.Fill(ds);
               
-              var rows = ds.Tables["TABLE"].Rows;
+              var rows = ds.Tables[0].Rows;
               //System.Console.WriteLine("Rows {0}: ", rows.Count);
                   
               
