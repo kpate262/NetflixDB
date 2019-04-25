@@ -68,7 +68,7 @@ namespace workspace
                                     
                                     SELECT MovieYear
                                     FROM Movies
-                                    INNER JOIN Reviews 
+                                    FULL OUTER JOIN Reviews 
                                         ON Movies.MovieID = Reviews.MovieID
                                     WHERE MovieName = '{5}'", 
                                      movieName, movieName, movieName, movieName, movieName, movieName);
@@ -183,7 +183,7 @@ namespace workspace
               db.Open();
           }
           catch(Exception ex){
-              System.Console.WriteLine("Error: {0}", ex.Message);
+              System.Console.WriteLine("**Error: {0}", ex.Message);
           }
           finally{
               movieName = movieName.Replace("'", "''");
