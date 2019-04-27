@@ -3,7 +3,7 @@
 // 
 // SQL, C# and ADO.NET program to retrieve Netflix movie data.
 //
-// <<YOUR NAME>>
+// <<Kisan Patel>>
 // 
 
 using System;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace workspace
 {
-  public class Movie{
+  public class Movie{//Movie class.  All the info about a movie gets stored in the object
       public string movieName;
       public int year;
       private string avgRating;
@@ -22,20 +22,13 @@ namespace workspace
       private int rank;
       private int totalMovies;
       
-      /*Movie(){
-          reviews = new int[5];
-          for(int i = 0; i < reviews.Length; i++){
-              reviews[i] = 0;
-          }
-      }*/
-      
-      public Movie(string movieName, string avgRating, int totalReviews, SqlConnection db){
+      public Movie(string movieName, string avgRating, int totalReviews, SqlConnection db){//Constructor.  Makes queries from db and stores info
           this.reviews = new int[5];
           this.movieName = movieName;
           this.totalReviews = totalReviews;
           this.avgRating = avgRating;
           
-          movieName = movieName.Replace("'", "''");
+          movieName = movieName.Replace("'", "''");//Queries netflix db for reviews 
           string sql = string.Format(@"SELECT Count(*) AS Rating
                                     FROM Reviews
                                     INNER JOIN Movies
@@ -71,21 +64,17 @@ namespace workspace
                                     FULL OUTER JOIN Reviews 
                                         ON Movies.MovieID = Reviews.MovieID
                                     WHERE MovieName = '{5}'", 
-                                     movieName, movieName, movieName, movieName, movieName, movieName);
+                                    movieName, movieName, movieName, movieName, movieName, movieName);
           
           DataSet ds = new DataSet();
           SqlCommand cmd = new SqlCommand();
           cmd.Connection = db;
           SqlDataAdapter adapter = new SqlDataAdapter(cmd);
           cmd.CommandText = sql;
-          adapter.Fill(ds);
+          adapter.Fill(ds);// fills dataset with tables of each review
           
           var rows = ds.Tables[0].Rows;
 
-          /*var rows1 = ds.Tables[1].Rows;
-          var rows2 = ds.Tables[2].Rows;
-          var rows3 = ds.Tables[3].Rows;
-          var rows4 = ds.Tables[4].Rows;*/
           
           for (int i = 0; i < 6; i++){
               rows = ds.Tables[i].Rows;
@@ -102,6 +91,7 @@ namespace workspace
           
           ds.Clear();
           
+          //queries again for rank 
           sql = string.Format(@"SELECT MovieName, AVG(CONVERT(float, Rating)) AS AvgRating
                             FROM Movies
                             FULL OUTER JOIN Reviews
@@ -129,7 +119,7 @@ namespace workspace
           
       }
       
-      
+      //getters
       public string getAvgRating(){
           return avgRating;
       }
@@ -147,7 +137,7 @@ namespace workspace
                                reviews[4], reviews[3], reviews[2], reviews[1], reviews[0]);
       }
       
-      public void print(){
+      public void print(){//prints all the required info
           System.Console.WriteLine("'{0}', released {1}", movieName, year);
           if(totalReviews == 0){
               System.Console.WriteLine(" Avg rating: <<no reviews>>"); 
@@ -163,18 +153,18 @@ namespace workspace
   }
     
   
-  public class Layer{
+  public class Layer{//Layer class.  makes queries and creates Movie objects in GetMovies 
       public List<Movie> matchedMovies;
       
       
       public List<Movie> GetMovies(string movieName){
           List<Movie> movieList = new List<Movie>();
           string connectionInfo = String.Format(@"
-            Server=tcp:jhummel2.database.windows.net,1433;Initial Catalog=Netflix;
-            Persist Security Info=False;User ID=student;Password=cs341!uic;
-            MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;
-            Connection Timeout=30;
-            ");
+                    Server=tcp:jhummel2.database.windows.net,1433;Initial Catalog=Netflix;
+                    Persist Security Info=False;User ID=student;Password=cs341!uic;
+                    MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;
+                    Connection Timeout=30;
+                    ");
           
           SqlConnection db = null;
           
@@ -203,8 +193,7 @@ namespace workspace
               adapter.Fill(ds);
               
               var rows = ds.Tables[0].Rows;
-              //System.Console.WriteLine("Rows {0}: ", rows.Count);
-                  
+ 
               
               if(rows.Count == 0){
                   System.Console.WriteLine("**none found");
@@ -214,7 +203,6 @@ namespace workspace
                       string movieNames = System.Convert.ToString(row["MovieName"]);
                       string avgrate = System.Convert.ToString(row["AvgRating"]);
                       int totalRating = System.Convert.ToInt32(row["TotalRating"]);
-                      //System.Console.WriteLine("{0}", avgrate);
                       Movie movie = new Movie(movieNames, avgrate, totalRating, db);
                       movieList.Add(movie);
                   }
@@ -241,7 +229,6 @@ namespace workspace
       input = System.Console.ReadLine();
       
       Layer ORMLayer = new Layer();
-        
 
       while(input != ""){
           List<Movie> movieList = ORMLayer.GetMovies(input);
